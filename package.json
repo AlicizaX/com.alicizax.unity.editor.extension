@@ -1,0 +1,23 @@
+{
+  "name": "com.alicizax.unity.editor.extension",
+  "displayName": "Aliciza X Editor Extension",
+  "category": "Aliciza X",
+  "description": "Aliciza X Editor Extension",
+  "version": "1.0.1",
+  "unity": "2025.1",
+  "dependencies": {
+    "com.unity.2d.sprite": "1.0.0"
+  },
+  "keywords": [
+    "Game Framework X"
+  ],
+  "repository": {
+    "name": "com.alicizax.unity",
+    "url": "http://101.34.252.46:3000/AlicizaX/",
+    "type": "git"
+  },
+  "author": {
+    "name": "Yuliuren",
+    "email": "yuliuren00@gmail.com"
+  }
+}
