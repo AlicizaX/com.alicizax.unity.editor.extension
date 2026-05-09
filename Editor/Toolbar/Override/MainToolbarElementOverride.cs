@@ -1,4 +1,6 @@
-﻿namespace Paps.UnityToolbarExtenderUIToolkit
+﻿#if !UNITY_6000_3_OR_NEWER
+
+namespace Paps.UnityToolbarExtenderUIToolkit
 {
     internal readonly struct MainToolbarElementOverride
     {
@@ -12,3 +14,4 @@
         }
     }
 }
+#endif // !UNITY_6000_3_OR_NEWER

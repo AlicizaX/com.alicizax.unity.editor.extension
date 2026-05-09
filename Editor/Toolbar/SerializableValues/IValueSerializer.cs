@@ -1,4 +1,6 @@
-﻿namespace Paps.UnityToolbarExtenderUIToolkit
+﻿#if !UNITY_6000_3_OR_NEWER
+
+namespace Paps.UnityToolbarExtenderUIToolkit
 {
     internal interface IValueSerializer
     {
@@ -6,3 +8,4 @@
         T Deserialize<T>(string serializedValue);
     }
 }
+#endif // !UNITY_6000_3_OR_NEWER

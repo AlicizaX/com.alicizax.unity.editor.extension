@@ -1,4 +1,6 @@
-﻿namespace Paps.UnityToolbarExtenderUIToolkit
+﻿#if !UNITY_6000_3_OR_NEWER
+
+namespace Paps.UnityToolbarExtenderUIToolkit
 {
     internal interface IMainToolbarElementOverrideRepository
     {
@@ -8,3 +10,4 @@
         public void Clear();
     }
 }
+#endif // !UNITY_6000_3_OR_NEWER

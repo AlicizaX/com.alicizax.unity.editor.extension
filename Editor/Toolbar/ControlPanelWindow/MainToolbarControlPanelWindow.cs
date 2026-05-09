@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿#if !UNITY_6000_3_OR_NEWER
+
+using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
@@ -205,3 +207,4 @@ namespace Paps.UnityToolbarExtenderUIToolkit
         }
     }
 }
+#endif // !UNITY_6000_3_OR_NEWER

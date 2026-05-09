@@ -1,4 +1,6 @@
-﻿using UnityEngine.UIElements;
+﻿#if !UNITY_6000_3_OR_NEWER
+
+using UnityEngine.UIElements;
 
 namespace Paps.UnityToolbarExtenderUIToolkit
 {
@@ -14,3 +16,4 @@ namespace Paps.UnityToolbarExtenderUIToolkit
         }
     }
 }
+#endif // !UNITY_6000_3_OR_NEWER

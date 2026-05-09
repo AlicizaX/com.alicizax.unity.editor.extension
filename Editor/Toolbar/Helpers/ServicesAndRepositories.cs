@@ -1,4 +1,6 @@
-﻿namespace Paps.UnityToolbarExtenderUIToolkit
+﻿#if !UNITY_6000_3_OR_NEWER
+
+namespace Paps.UnityToolbarExtenderUIToolkit
 {
     internal static class ServicesAndRepositories
     {
@@ -21,3 +23,4 @@
             new UserSettingsFileMainToolbarElementVariableRepository(MainToolbarElementVariableSerializer);
     }
 }
+#endif // !UNITY_6000_3_OR_NEWER

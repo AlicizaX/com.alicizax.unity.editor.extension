@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿#if !UNITY_6000_3_OR_NEWER
+
+using Newtonsoft.Json;
 
 namespace Paps.UnityToolbarExtenderUIToolkit
 {
@@ -15,3 +17,4 @@ namespace Paps.UnityToolbarExtenderUIToolkit
         }
     }
 }
+#endif // !UNITY_6000_3_OR_NEWER

@@ -1,4 +1,6 @@
-﻿using System;
+﻿#if !UNITY_6000_3_OR_NEWER
+
+using System;
 
 namespace Paps.UnityToolbarExtenderUIToolkit
 {
@@ -10,3 +12,4 @@ namespace Paps.UnityToolbarExtenderUIToolkit
         public object Value;
     }
 }
+#endif // !UNITY_6000_3_OR_NEWER

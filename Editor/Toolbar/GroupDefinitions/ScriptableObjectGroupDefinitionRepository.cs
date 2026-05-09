@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿#if !UNITY_6000_3_OR_NEWER
+
+using System.Linq;
 using UnityEditor;
 
 namespace Paps.UnityToolbarExtenderUIToolkit
@@ -36,3 +38,4 @@ namespace Paps.UnityToolbarExtenderUIToolkit
         }
     }
 }
+#endif // !UNITY_6000_3_OR_NEWER

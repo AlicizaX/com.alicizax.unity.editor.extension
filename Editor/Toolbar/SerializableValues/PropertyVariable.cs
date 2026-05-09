@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿#if !UNITY_6000_3_OR_NEWER
+
+using System.Collections;
 using System.Reflection;
 
 namespace Paps.UnityToolbarExtenderUIToolkit
@@ -24,3 +26,4 @@ namespace Paps.UnityToolbarExtenderUIToolkit
         }
     }
 }
+#endif // !UNITY_6000_3_OR_NEWER

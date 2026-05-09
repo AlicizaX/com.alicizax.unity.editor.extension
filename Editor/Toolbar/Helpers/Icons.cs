@@ -1,4 +1,6 @@
-﻿using System;
+﻿#if !UNITY_6000_3_OR_NEWER
+
+using System;
 using UnityEditor;
 using UnityEngine;
 
@@ -16,3 +18,4 @@ namespace Paps.UnityToolbarExtenderUIToolkit
         public static Texture VisibilityOffOverrideIcon => VISIBILITY_OFF_OVERRIDE_ICON_LAZY.Value;
     }
 }
+#endif // !UNITY_6000_3_OR_NEWER
