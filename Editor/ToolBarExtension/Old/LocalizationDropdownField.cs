@@ -45,6 +45,7 @@ public class LocalizationDropdownField : IMGUIContainer
 
     void DrawEditorToolDropdownMenus()
     {
+        _languageTypeNames = LocalizationConfiguration.Instance.LanguageTypeNames.ToArray();
         string langaugeName = GetPrefsStr();
         GenericMenu popMenu = new GenericMenu();
         for (int i = 0; i < _languageTypeNames.Length; i++)

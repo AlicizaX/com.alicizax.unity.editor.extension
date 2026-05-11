@@ -20,11 +20,13 @@ namespace AlicizaX.Editor.Extension
 
         private static readonly Texture2D SettingsIcon;
         private static string s_LastKnownLanguage;
+        private static int s_LastKnownLanguageCount;
 
         static LocalizationToolbarDropdown()
         {
             SettingsIcon = GetIcon("Settings");
             s_LastKnownLanguage = GetSelectedLanguage();
+            s_LastKnownLanguageCount = GetLanguageTypeNames().Count;
             EditorApplication.update += RefreshWhenLanguageChanges;
         }
 
@@ -39,12 +41,14 @@ namespace AlicizaX.Editor.Extension
         private static void RefreshWhenLanguageChanges()
         {
             var selectedLanguage = GetSelectedLanguage();
-            if (selectedLanguage == s_LastKnownLanguage)
+            var languageCount = GetLanguageTypeNames().Count;
+            if (selectedLanguage == s_LastKnownLanguage && languageCount == s_LastKnownLanguageCount)
             {
                 return;
             }
 
             s_LastKnownLanguage = selectedLanguage;
+            s_LastKnownLanguageCount = languageCount;
             MainToolbar.Refresh(ElementPath);
         }
 
