@@ -9,7 +9,7 @@ using System.IO;
 
 public class EditorIcons : EditorWindow
 {
-    [MenuItem("AlicizaX/Extension/Editor Icons %e", priority = -1001)]
+    [MenuItem("AlicizaX/Extension/Editor Icons %e", priority = -1000)]
     public static void EditorIconsOpen()
     {
 #if UNITY_2018
