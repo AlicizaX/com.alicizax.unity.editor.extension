@@ -18,7 +18,7 @@ public static class BuildDLLCommand
     /// <summary>
     /// 禁用HybridCLR宏定义。
     /// </summary>
-    [MenuItem("HybridCLR/Tools/Define Symbols/Disable HybridCLR", false, 30)]
+    [MenuItem("HybridCLR/Tools/Disable HybridCLR", false, 100)]
     public static void Disable()
     {
         ScriptingDefineSymbols.RemoveScriptingDefineSymbol(EnableHybridClrScriptingDefineSymbol);
@@ -28,7 +28,7 @@ public static class BuildDLLCommand
     /// <summary>
     /// 开启HybridCLR宏定义。
     /// </summary>
-    [MenuItem("HybridCLR/Tools/Define Symbols/Enable HybridCLR", false, 31)]
+    [MenuItem("HybridCLR/Tools/Enable HybridCLR", false, 200)]
     public static void Enable()
     {
         ScriptingDefineSymbols.RemoveScriptingDefineSymbol(EnableHybridClrScriptingDefineSymbol);
@@ -37,7 +37,7 @@ public static class BuildDLLCommand
     }
 
 
-    [MenuItem("HybridCLR/Tools/BuildAssets And CopyTo AssemblyTextAssetPath")]
+    [MenuItem("HybridCLR/Tools/BuildAssets And CopyTo AssemblyTextAssetPath",false,300)]
     public static void BuildAndCopyDlls()
     {
         BuildTarget target = EditorUserBuildSettings.activeBuildTarget;
@@ -49,12 +49,6 @@ public static class BuildDLLCommand
     public static void GenerateAll()
     {
         PrebuildCommand.GenerateAll();
-    }
-
-    public static void BuildAndCopyDlls(BuildTarget target)
-    {
-        CompileDllCommand.CompileDll(target);
-        CopyAOTHotUpdateDlls(target);
     }
 
     public static void CopyAOTHotUpdateDlls(BuildTarget target)
