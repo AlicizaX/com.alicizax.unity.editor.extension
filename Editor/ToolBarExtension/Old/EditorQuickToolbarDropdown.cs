@@ -1,8 +1,5 @@
 #if !UNITY_6000_3_OR_NEWER
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
 using Paps.UnityToolbarExtenderUIToolkit;
 using UnityEditor;
 using UnityEngine;
@@ -37,6 +34,13 @@ namespace AlicizaX.Editor.Extension
         void DrawEditorToolDropdownMenus()
         {
             GenericMenu popMenu = new GenericMenu();
+            if (EditorToolFunctionAttributeCollector.Attributes.Count == 0)
+            {
+                popMenu.AddDisabledItem(new GUIContent("No tools found"));
+                popMenu.ShowAsContext();
+                return;
+            }
+
             for (int i = 0; i < EditorToolFunctionAttributeCollector.Attributes.Count; i++)
             {
                 var toolAttr = EditorToolFunctionAttributeCollector.Attributes[i];
@@ -49,14 +53,30 @@ namespace AlicizaX.Editor.Extension
 
         void ClickToolsSubmenu(int menuIdx)
         {
-            var editorTp = EditorToolFunctionAttributeCollector.Attributes[menuIdx];
-            if (editorTp.MethodInfo != null && editorTp.MethodInfo.IsStatic)
+            InvokeTool(EditorToolFunctionAttributeCollector.Attributes[menuIdx]);
+        }
+
+        private static void InvokeTool(EditorToolFunctionAttribute toolEntry)
+        {
+            if (toolEntry.MethodInfo == null || !toolEntry.MethodInfo.IsStatic)
             {
-                editorTp.MethodInfo.Invoke(null, null);
+                Debug.LogError("Tool method is not static or could not be found.");
+                return;
             }
-            else
+
+            if (toolEntry.MethodInfo.GetParameters().Length != 0)
             {
-                Debug.LogError("Method is not static or not found.");
+                Debug.LogError($"Tool method '{toolEntry.MethodInfo.Name}' must be parameterless.");
+                return;
+            }
+
+            try
+            {
+                toolEntry.MethodInfo.Invoke(null, null);
+            }
+            catch (Exception exception)
+            {
+                Debug.LogException(exception);
             }
         }
     }
