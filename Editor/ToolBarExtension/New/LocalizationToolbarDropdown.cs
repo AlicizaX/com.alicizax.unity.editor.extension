@@ -74,7 +74,10 @@ namespace AlicizaX.Editor.Extension
                     () => SetSelectedLanguage(capturedLanguageName));
             }
 
-            menu.DropDown(dropdownRect);
+            using (new EditorGUI.DisabledScope(Application.isPlaying))
+            {
+                menu.DropDown(dropdownRect);
+            }
         }
 
         private static void SetSelectedLanguage(string languageName)
@@ -87,9 +90,7 @@ namespace AlicizaX.Editor.Extension
 
         private static IReadOnlyList<string> GetLanguageTypeNames()
         {
-            return LocalizationConfiguration.Instance != null
-                ? LocalizationConfiguration.Instance.LanguageTypeNames
-                : Array.Empty<string>();
+            return LanguageTypes.Languages;
         }
 
         private static string GetSelectedLanguage()

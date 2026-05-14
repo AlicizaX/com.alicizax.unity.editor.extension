@@ -21,7 +21,7 @@ public class LocalizationDropdownField : IMGUIContainer
 
     public void InitializeElement()
     {
-        _languageTypeNames = LocalizationConfiguration.Instance.LanguageTypeNames.ToArray();
+        _languageTypeNames = LanguageTypes.Languages.ToArray();
 
         appConfigBtContent =
             EditorGUIUtility.TrTextContentWithIcon("", "",
@@ -34,9 +34,12 @@ public class LocalizationDropdownField : IMGUIContainer
         GUILayout.BeginHorizontal();
         string title = GetPrefsStr();
         appConfigBtContent.text = title;
-        if (EditorGUILayout.DropdownButton(appConfigBtContent, FocusType.Passive, EditorStyles.toolbarPopup, GUILayout.MaxWidth(120)))
+        using (new EditorGUI.DisabledScope(Application.isPlaying))
         {
-            DrawEditorToolDropdownMenus();
+            if (EditorGUILayout.DropdownButton(appConfigBtContent, FocusType.Passive, EditorStyles.toolbarPopup, GUILayout.MaxWidth(120)))
+            {
+                DrawEditorToolDropdownMenus();
+            }
         }
 
         GUILayout.Space(5);
@@ -45,7 +48,7 @@ public class LocalizationDropdownField : IMGUIContainer
 
     void DrawEditorToolDropdownMenus()
     {
-        _languageTypeNames = LocalizationConfiguration.Instance.LanguageTypeNames.ToArray();
+        _languageTypeNames = LanguageTypes.Languages.ToArray();
         string langaugeName = GetPrefsStr();
         GenericMenu popMenu = new GenericMenu();
         for (int i = 0; i < _languageTypeNames.Length; i++)
