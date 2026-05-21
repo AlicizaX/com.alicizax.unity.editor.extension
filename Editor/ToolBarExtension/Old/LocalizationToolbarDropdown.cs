@@ -12,8 +12,8 @@ using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-[MainToolbarElement("LocalizationDropdownField", alignment: ToolbarAlign.Right, order: 0)]
-public class LocalizationDropdownField : IMGUIContainer
+[MainToolbarElement("LocalizationToolbarDropdown", alignment: ToolbarAlign.Right, order: 0)]
+public class LocalizationToolbarDropdown : IMGUIContainer
 {
     private GUIContent appConfigBtContent;
 
