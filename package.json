@@ -9,7 +9,8 @@
     "Aliciza X"
   ],
   "dependencies": {
-    "com.unity.2d.sprite": "1.0.0"
+    "com.unity.2d.sprite": "1.0.0",
+    "com.alicizax.unity.framework": ""
   },
   "repository": {
     "name": "com.alicizax.unity.editor.extension",
