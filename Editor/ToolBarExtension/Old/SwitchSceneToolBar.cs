@@ -2,14 +2,12 @@
 using System.Collections.Generic;
 using System.IO;
 using AlicizaX;
-using Paps.UnityToolbarExtenderUIToolkit;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
-[MainToolbarElement(id: "SwitchSceneToolBar", alignment: ToolbarAlign.Left, order: 1)]
 public class SwitchSceneToolBar : IMGUIContainer
 {
     private GUIContent switchSceneBtContent;

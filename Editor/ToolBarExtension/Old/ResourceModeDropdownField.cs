@@ -2,15 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using AlicizaX.Resource.Runtime;
-using Paps.UnityToolbarExtenderUIToolkit;
 using UnityEditor;
-using UnityEditor.Toolbars;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace AlicizaX.Editor.Extension
 {
-    [MainToolbarElement("ResourceModeDropdownField", alignment: ToolbarAlign.Right, order: 0)]
     public class ResourceModeDropdownField : IMGUIContainer
     {
         private GUIContent appConfigBtContent;

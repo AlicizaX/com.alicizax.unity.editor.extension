@@ -6,13 +6,11 @@ using System.Reflection;
 using AlicizaX.Localization.Runtime;
 using AlicizaX;
 using AlicizaX.Localization.Editor;
-using Paps.UnityToolbarExtenderUIToolkit;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-[MainToolbarElement("LocalizationToolbarDropdown", alignment: ToolbarAlign.Right, order: 0)]
 public class LocalizationToolbarDropdown : IMGUIContainer
 {
     private GUIContent appConfigBtContent;

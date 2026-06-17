@@ -1,13 +1,11 @@
 #if !UNITY_6000_3_OR_NEWER
 using System;
-using Paps.UnityToolbarExtenderUIToolkit;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace AlicizaX.Editor.Extension
 {
-    [MainToolbarElement("EditorQuickToolBar", alignment: ToolbarAlign.Right, order: 1)]
     public class EditorQuickToolBar : IMGUIContainer
     {
         private GUIContent toolsDropBtContent;
