@@ -14,6 +14,7 @@ namespace AlicizaX.Editor.Extension
 
         private static readonly string[] ResourceModeNames =
         {
+            "None",
             "Editor",
             "Offline",
             "Host",
