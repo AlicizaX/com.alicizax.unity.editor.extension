@@ -273,7 +273,7 @@ public static class EditorSpriteSaveInfo
                     foreach (var atlasName in ProcessBuffer)
                     {
                         if (force || ShouldUpdateAtlas(atlasName))
-                            GenerateAtlas(atlasName);
+                            GenerateAtlas(atlasName, force);
                     }
                 }
                 finally
@@ -297,42 +297,62 @@ public static class EditorSpriteSaveInfo
         }
     }
 
-    private static void GenerateAtlas(string atlasName)
+    private static void GenerateAtlas(string atlasName, bool force)
     {
         var outputPath = GetAtlasOutputPath(atlasName);
-        var packables = LoadValidSprites(atlasName);
+        var loadResult = LoadValidSprites(atlasName);
 
-        if (packables.Count == 0)
+        if (loadResult.PendingImport)
         {
+            if (Config.enableLogging)
+                Debug.Log($"Skip atlas '{atlasName}': source sprites are still importing.");
+            return;
+        }
+
+        if (loadResult.Sprites.Count == 0)
+        {
+            if (loadResult.HasTrackedSources)
+                return;
+
             DeleteAtlas(outputPath);
             DeleteAtlas(GetLegacyAtlasOutputPath(atlasName));
             return;
         }
 
-        DeleteAtlas(GetLegacyAtlasOutputPath(atlasName));
+        var existingAtlas = LoadExistingAtlas(outputPath);
+        if (existingAtlas == null && AtlasAssetExists(outputPath))
+        {
+            if (Config.enableLogging)
+                Debug.Log($"Skip atlas '{atlasName}': atlas asset exists but is not imported yet.");
+            return;
+        }
 
-        var spriteObjects = packables.ToArray();
+        var spriteObjects = loadResult.Sprites.ToArray();
+        if (!force && existingAtlas != null && PackablesMatch(existingAtlas.GetPackables(), spriteObjects))
+            return;
+
         if (Config.enableV2)
         {
-            GenerateAtlasV2(outputPath, spriteObjects);
+            GenerateAtlasV2(outputPath, existingAtlas, spriteObjects);
         }
         else
         {
-            GenerateAtlasV1(outputPath, spriteObjects);
+            GenerateAtlasV1(outputPath, existingAtlas, spriteObjects);
         }
 
         if (Config.enableLogging)
             Debug.Log($"Generated atlas: {atlasName} ({spriteObjects.Length} sprites)");
     }
 
-    private static void GenerateAtlasV2(string outputPath, UnityEngine.Object[] spriteObjects)
+    private static void GenerateAtlasV2(string outputPath, SpriteAtlas existingAtlas, UnityEngine.Object[] spriteObjects)
     {
-        var atlas = AssetDatabase.LoadAssetAtPath<SpriteAtlas>(outputPath);
-        var spriteAtlasAsset = atlas == null ? new SpriteAtlasAsset() : SpriteAtlasAsset.Load(outputPath);
+        var spriteAtlasAsset = existingAtlas == null ? new SpriteAtlasAsset() : SpriteAtlasAsset.Load(outputPath);
+        if (spriteAtlasAsset == null)
+            spriteAtlasAsset = new SpriteAtlasAsset();
 
-        if (atlas != null)
+        if (existingAtlas != null)
         {
-            var oldPackables = atlas.GetPackables();
+            var oldPackables = existingAtlas.GetPackables();
             if (oldPackables != null && oldPackables.Length > 0)
                 spriteAtlasAsset.Remove(oldPackables);
         }
@@ -348,12 +368,11 @@ public static class EditorSpriteSaveInfo
 #endif
     }
 
-    private static void GenerateAtlasV1(string outputPath, UnityEngine.Object[] spriteObjects)
+    private static void GenerateAtlasV1(string outputPath, SpriteAtlas existingAtlas, UnityEngine.Object[] spriteObjects)
     {
-        var atlas = AssetDatabase.LoadAssetAtPath<SpriteAtlas>(outputPath);
-        if (atlas == null)
+        if (existingAtlas == null)
         {
-            atlas = new SpriteAtlas();
+            var atlas = new SpriteAtlas();
             ConfigureAtlasSettings(atlas);
             atlas.Add(spriteObjects);
             atlas.SetIsVariant(false);
@@ -361,40 +380,92 @@ public static class EditorSpriteSaveInfo
             return;
         }
 
-        var oldPackables = atlas.GetPackables();
+        var oldPackables = existingAtlas.GetPackables();
         if (oldPackables != null && oldPackables.Length > 0)
-            atlas.Remove(oldPackables);
+            existingAtlas.Remove(oldPackables);
 
-        ConfigureAtlasSettings(atlas);
-        atlas.Add(spriteObjects);
-        atlas.SetIsVariant(false);
-        EditorUtility.SetDirty(atlas);
+        ConfigureAtlasSettings(existingAtlas);
+        existingAtlas.Add(spriteObjects);
+        existingAtlas.SetIsVariant(false);
+        EditorUtility.SetDirty(existingAtlas);
     }
 
-    private static List<UnityEngine.Object> LoadValidSprites(string atlasName)
+    private static SpriteLoadResult LoadValidSprites(string atlasName)
     {
-        var sprites = new List<UnityEngine.Object>();
+        var result = new SpriteLoadResult();
         if (!AtlasMap.TryGetValue(atlasName, out var spritePaths) || spritePaths.Count == 0)
-            return sprites;
+            return result;
+
+        result.HasTrackedSources = true;
 
         foreach (var assetPath in spritePaths)
         {
             var sprite = AssetDatabase.LoadAssetAtPath<Sprite>(assetPath);
             if (sprite != null)
             {
-                sprites.Add(sprite);
+                result.Sprites.Add(sprite);
                 continue;
             }
 
+            var foundSubSprite = false;
             var subAssets = AssetDatabase.LoadAllAssetRepresentationsAtPath(assetPath);
             foreach (var subAsset in subAssets)
             {
                 if (subAsset is Sprite subSprite)
-                    sprites.Add(subSprite);
+                {
+                    result.Sprites.Add(subSprite);
+                    foundSubSprite = true;
+                }
             }
+
+            if (!foundSubSprite && File.Exists(assetPath))
+                result.PendingImport = true;
         }
 
-        return sprites;
+        return result;
+    }
+
+    private static SpriteAtlas LoadExistingAtlas(string outputPath)
+    {
+        return AssetDatabase.LoadAssetAtPath<SpriteAtlas>(outputPath);
+    }
+
+    private static bool AtlasAssetExists(string outputPath)
+    {
+        return !string.IsNullOrEmpty(outputPath) && File.Exists(outputPath);
+    }
+
+    private static bool PackablesMatch(UnityEngine.Object[] current, UnityEngine.Object[] expected)
+    {
+        if (current == null)
+            return expected == null || expected.Length == 0;
+
+        if (expected == null || current.Length != expected.Length)
+            return false;
+
+        var currentIds = new HashSet<int>();
+        for (var i = 0; i < current.Length; i++)
+        {
+            if (current[i] == null)
+                return false;
+
+            currentIds.Add(current[i].GetInstanceID());
+        }
+
+        for (var i = 0; i < expected.Length; i++)
+        {
+            if (expected[i] == null || !currentIds.Contains(expected[i].GetInstanceID()))
+                return false;
+        }
+
+        return true;
+    }
+
+    private sealed class SpriteLoadResult
+    {
+        public readonly List<UnityEngine.Object> Sprites = new List<UnityEngine.Object>();
+        public bool PendingImport;
+        public bool HasTrackedSources;
     }
 
     private static void ApplyPendingV2ImportSettings()
