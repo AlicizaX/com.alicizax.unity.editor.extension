@@ -449,12 +449,12 @@ public static class EditorSpriteSaveInfo
             if (current[i] == null)
                 return false;
 
-            currentIds.Add(current[i].GetInstanceID());
+            currentIds.Add(UnityObjectId.Get(current[i]));
         }
 
         for (var i = 0; i < expected.Length; i++)
         {
-            if (expected[i] == null || !currentIds.Contains(expected[i].GetInstanceID()))
+            if (expected[i] == null || !currentIds.Contains(UnityObjectId.Get(expected[i])))
                 return false;
         }
 
