@@ -443,7 +443,7 @@ public static class EditorSpriteSaveInfo
         if (expected == null || current.Length != expected.Length)
             return false;
 
-        var currentIds = new HashSet<int>();
+        var currentIds = new HashSet<ulong>();
         for (var i = 0; i < current.Length; i++)
         {
             if (current[i] == null)
