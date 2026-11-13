@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace TEngine.Editor
+namespace AlicizaX.Editor
 {
     internal sealed class SortConfig
     {

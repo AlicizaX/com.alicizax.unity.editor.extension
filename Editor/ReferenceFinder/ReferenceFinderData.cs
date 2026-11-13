@@ -11,7 +11,7 @@ using UnityEngine;
 
 // ReSharper disable InconsistentNaming
 
-namespace TEngine.Editor
+namespace AlicizaX.Editor
 {
     internal sealed class ReferenceFinderData
     {

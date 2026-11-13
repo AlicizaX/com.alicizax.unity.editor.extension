@@ -9,7 +9,7 @@ using UnityEngine;
 using TreeViewState = UnityEditor.IMGUI.Controls.TreeViewState<int>;
 #endif
 
-namespace TEngine.Editor
+namespace AlicizaX.Editor
 {
     internal sealed class ResourceReferenceInfo : EditorWindow
     {

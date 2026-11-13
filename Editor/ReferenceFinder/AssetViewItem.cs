@@ -4,7 +4,7 @@ using UnityEditor.IMGUI.Controls;
 using TreeViewItem = UnityEditor.IMGUI.Controls.TreeViewItem<int>;
 #endif
 
-namespace TEngine.Editor
+namespace AlicizaX.Editor
 {
     internal sealed class AssetViewItem : TreeViewItem
     {

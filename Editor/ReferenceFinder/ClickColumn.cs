@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEditor.IMGUI.Controls;
 
-namespace TEngine.Editor
+namespace AlicizaX.Editor
 {
     internal sealed class ClickColumn : MultiColumnHeader
     {

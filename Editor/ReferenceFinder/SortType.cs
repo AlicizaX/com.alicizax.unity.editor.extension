@@ -1,4 +1,4 @@
-namespace TEngine.Editor
+namespace AlicizaX.Editor
 {
     public enum SortType
     {

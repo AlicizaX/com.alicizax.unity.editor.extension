@@ -1,7 +1,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace TEngine.Editor
+namespace AlicizaX.Editor
 {
     internal sealed class DragAreaGetObject
     {
