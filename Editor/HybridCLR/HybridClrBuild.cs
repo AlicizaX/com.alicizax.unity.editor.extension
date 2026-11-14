@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using AlicizaX;
-using HybridCLR.Editor;
-using HybridCLR.Editor.Commands;
-using HybridCLR.Editor.Installer;
+using HybridCLR;
+using HybridCLR.Commands;
+using HybridCLR.Installer;
 using UnityEditor;
 using UnityEngine;
 
